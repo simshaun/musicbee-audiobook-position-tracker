@@ -56,7 +56,7 @@ namespace MusicBeePlugin
         // MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
         public void Close(PluginCloseReason reason)
         {
-            _playingTimer.Enabled = false;
+            _playingTimer.Stop();
         }
 
         // uninstall this plugin - clean up any persisted files
@@ -124,14 +124,14 @@ namespace MusicBeePlugin
                                 LoadSavedPosition();
                             }
 
-                            _playingTimer.Enabled = true;
+                            _playingTimer.Start();
                             break;
                         case PlayState.Paused:
-                            _playingTimer.Enabled = false;
+                            _playingTimer.Stop();
                             SavePosition();
                             break;
                         case PlayState.Stopped:
-                            _playingTimer.Enabled = false;
+                            _playingTimer.Stop();
                             break;
                     }
 
@@ -140,7 +140,7 @@ namespace MusicBeePlugin
                     SavePosition();
                     break;
                 case NotificationType.TrackChanging:
-                    _playingTimer.Enabled = false;
+                    _playingTimer.Stop();
                     break;
                 case NotificationType.TrackChanged:
                     if (CurrentTrackUrl() == _currentTrackUrl)
@@ -150,7 +150,7 @@ namespace MusicBeePlugin
 
                     Thread.Sleep(500);
                     LoadSavedPosition();
-                    _playingTimer.Enabled = true;
+                    _playingTimer.Start();
                     break;
             }
         }
