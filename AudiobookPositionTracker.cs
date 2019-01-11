@@ -143,6 +143,7 @@ namespace MusicBeePlugin
                     _playingTimer.Stop();
                     break;
                 case NotificationType.TrackChanged:
+                    // Necessary because Player_SetPosition is triggering this event, causing an infinite loop.
                     if (CurrentTrackUrl() == _currentTrackUrl)
                     {
                         return;
