@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Timers;
-using System.Windows.Forms;
 
 namespace MusicBeePlugin
 {
@@ -73,7 +71,7 @@ namespace MusicBeePlugin
 
         public string GetPositionFilename()
         {
-            return CurrentTrackUrl() + ".position.txt";
+            return _currentTrackUrl + ".position.txt";
         }
 
         public void LoadSavedPosition()
@@ -94,7 +92,7 @@ namespace MusicBeePlugin
             try
             {
                 var position = _mbApiInterface.Player_GetPosition();
-                File.WriteAllText(CurrentTrackUrl() + ".position.txt", position.ToString());
+                File.WriteAllText(_currentTrackUrl + ".position.txt", position.ToString());
             }
             catch (Exception)
             {
@@ -107,18 +105,36 @@ namespace MusicBeePlugin
             SavePosition();
         }
 
+        public string[] AllAudiobooks()
+        {
+            var audiobooks = new string[] { };
+            _mbApiInterface.Library_QueryFilesEx(@"<Source Type=""32""></Source>", ref audiobooks);
+
+            return audiobooks;
+        }
+
+        public bool IsAudiobook(string fileUrl)
+        {
+            return Array.IndexOf(AllAudiobooks(), fileUrl) > -1;
+        }
+
         // receive event notifications from MusicBee
         // you need to set about.ReceiveNotificationFlags = PlayerEvents to receive all notifications, and not just the startup event
         public void ReceiveNotification(string sourceFileUrl, NotificationType type)
         {
+            _currentTrackUrl = sourceFileUrl;
+
+            if (!IsAudiobook(_currentTrackUrl))
+            {
+                return;
+            }
+
             switch (type)
             {
                 case NotificationType.PlayStateChanged:
                     switch (_mbApiInterface.Player_GetPlayState())
                     {
                         case PlayState.Playing:
-                            _currentTrackUrl = CurrentTrackUrl();
-
                             if (_mbApiInterface.Player_GetPosition() == 0)
                             {
                                 LoadSavedPosition();
