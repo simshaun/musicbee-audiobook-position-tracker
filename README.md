@@ -4,8 +4,7 @@ This plugin will remember where you last listened.
 
 # Warning
 
-I use MusicBee for audiobooks only, and don't have a huge library.
-I haven't tested this plugin with a massive library.
+I use MusicBee for audiobooks only and haven't tested this with a huge library.
 
 # Installation
 

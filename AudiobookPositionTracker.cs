@@ -124,14 +124,14 @@ namespace MusicBeePlugin
         {
             _currentTrackUrl = sourceFileUrl;
 
-            if (!IsAudiobook(_currentTrackUrl))
-            {
-                return;
-            }
-
             switch (type)
             {
                 case NotificationType.PlayStateChanged:
+                    if (!IsAudiobook(_currentTrackUrl))
+                    {
+                        return;
+                    }
+
                     switch (_mbApiInterface.Player_GetPlayState())
                     {
                         case PlayState.Playing:
@@ -153,9 +153,19 @@ namespace MusicBeePlugin
 
                     break;
                 case NotificationType.TrackChanging:
+                    if (!IsAudiobook(_currentTrackUrl))
+                    {
+                        return;
+                    }
+
                     _playingTimer.Stop();
                     break;
                 case NotificationType.TrackChanged:
+                    if (!IsAudiobook(_currentTrackUrl))
+                    {
+                        return;
+                    }
+
                     // Necessary because Player_SetPosition is triggering this event, causing an infinite loop.
                     if (CurrentTrackUrl() == _currentTrackUrl)
                     {
