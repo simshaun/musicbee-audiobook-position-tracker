@@ -2,16 +2,10 @@
 
 This plugin will remember where you last listened.
 
-# Huge Caveat!
+# Warning
 
-I don't know of a foolproof way of making this apply to audiobooks only.
-Currently, it remembers last position of anything played. My audiobooks
-are in the m4b container format, so I *could* restrict this plugin to m4b files,
-but then it would be useless for others who have audiobooks in other formats.
-
-Because I use MusicBee for audiobooks only, this isn't a problem for me.
-However, it may be annoying for you if you use MusicBee for music and other stuff.
-e.g. I haven't tested this with podcasts or anything like that.
+I use MusicBee for audiobooks only, and don't have a huge library.
+I haven't tested this plugin with a massive library.
 
 # Installation
 
