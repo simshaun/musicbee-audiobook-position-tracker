@@ -152,9 +152,6 @@ namespace MusicBeePlugin
                     }
 
                     break;
-                case NotificationType.PlayerScrobbleChanged:
-                    SavePosition();
-                    break;
                 case NotificationType.TrackChanging:
                     _playingTimer.Stop();
                     break;
